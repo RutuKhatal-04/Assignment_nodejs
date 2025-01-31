@@ -4,10 +4,7 @@ import authroutes from "./routes/authroutes";
 import { authenticateJWT } from "./middleware/auth";
 import dotenv from 'dotenv';
 dotenv.config();
-// import authRoutes from './routes/authroutes';
-// import { authenticateJWT, authenticateJWTcust } from './middleware/authMiddleware';
-// import "./models/associations";
-// import cron from "node-cron";
+
 
 
 const app=express();
