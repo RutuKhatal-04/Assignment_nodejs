@@ -9,7 +9,7 @@ import { Op, Sequelize } from 'sequelize';
 
 import Timesheet from '../models/TimeSheet';
 
-const secret = 'abc@#1234'; // Make sure to store this securely
+const secret = 'abc@#1234';
 
 export const emplogin = async (req: Request, res: Response) => {
     const { email, password } = req.body;
@@ -65,7 +65,7 @@ export const emplogin = async (req: Request, res: Response) => {
 
 
 
- // Assuming you have a Timesheet model
+
 
 export const create_timesheet = async (req: Request, res: Response) => {
     const { projectName, taskName, fromDate, toDate } = req.body;
@@ -88,7 +88,7 @@ export const create_timesheet = async (req: Request, res: Response) => {
 
         const shiftid = shift.id;
 
-        // Assuming you have a Timesheet model and you want to create a new timesheet entry
+       
         const timesheet = await Timesheet.create({
             projectName,
             taskName,
@@ -112,7 +112,7 @@ export const create_timesheet = async (req: Request, res: Response) => {
 export const report = async (req:Request, res:Response) => {
     const { payload_startdate, payload_enddate } = req.body;
 
-    // Validate and log the date values
+  
     if (!payload_startdate || !payload_enddate) {
         res.json({ message: "Invalid date range" });
         return;
@@ -121,7 +121,7 @@ export const report = async (req:Request, res:Response) => {
     console.log(`Start Date: ${payload_startdate}, End Date: ${payload_enddate}`);
 
  
-        // Convert dates to ISO format if necessary
+
         const start = new Date(payload_startdate).toISOString();
         const end = new Date(payload_enddate).toISOString();
 
@@ -138,11 +138,9 @@ export const report = async (req:Request, res:Response) => {
         attributes: ["id", "name", "email", "assginedTime"]
     });
 
-    // Create a new workbook and add a worksheet
     const workbook = new exceljs.Workbook();
     const worksheet = workbook.addWorksheet('Shift Report');
 
-    // Add columns to the worksheet
     worksheet.columns = [
         { header: 'empid', key: 'empid', width: 10 },
         { header: 'date', key: 'date', width: 15 },
@@ -152,7 +150,6 @@ export const report = async (req:Request, res:Response) => {
         { header: 'comparison', key: 'comparison', width: 20 }
     ];
 
-    // Process shift data and add rows to the worksheet
     shiftdata.forEach(shift => {
         const empid = shift.empid;
         const date = new Date(shift.startTime).toISOString().split('T')[0];
@@ -180,8 +177,6 @@ export const report = async (req:Request, res:Response) => {
             comparison: compp
         });
     });
-
-    // Write the workbook to a file
     await workbook.xlsx.writeFile('shift_report.xlsx');
 
     console.log("Data has been successfully saved to shift_report.xlsx");
@@ -211,7 +206,7 @@ export const emplogout=async(req:Request,res:Response)=>{
         res.json({message:"Already Logout"});
         return;
     }
-    // Update the shift end time and actual time
+
     shiftdata.endTime = moment().tz('Asia/Kolkata').toDate();
 
     const starthr=shiftdata.startTime.getHours();

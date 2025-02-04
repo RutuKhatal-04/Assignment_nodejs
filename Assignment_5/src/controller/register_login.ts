@@ -20,13 +20,12 @@ export const register = async (req: Request, res: Response) => {
         const organization = await Admin.create({ email, password: hashedPassword});
         res.status(201).json(organization);
     } catch (error) {
-        console.error('Error during registration:', error); // Log the error
+        console.error('Error during registration:', error); 
         res.status(500).json({ error: 'Internal server error' });
     }
 };
 
 
-// organization login based on roles
 
 export const login = async (req: Request, res: Response)=> {
     const { email, password } = req.body;
